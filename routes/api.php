@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AbsenController;
+use App\Http\Controllers\Api\Admin\AdminAbsenController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// public route
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// Guest route
+Route::group(['middleware' => ['guest']], function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+});
 
-// private login route
+
+// Auth route
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // logout user
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -33,8 +37,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // route absen
     Route::get('/absen', [AbsenController::class, 'index']);
     Route::post('/absen', [AbsenController::class, 'store']);
+    Route::put('/absen/{id}', [AbsenController::class, 'update']);
+    Route::get('/absen/{id}', [AbsenController::class, 'show']);
 
     // route admin
     Route::group(['middleware' => ['is_admin']], function () {
+        // route menambah keterangan ke siswa
+        Route::put('/keterangan/{id}', [AdminAbsenController::class, 'keterangan']);
     });
 });
