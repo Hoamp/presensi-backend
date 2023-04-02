@@ -22,7 +22,9 @@ class User extends Authenticatable
         'nama',
         'password',
         'alamat',
-        'nisn'
+        'nisn',
+        'tanggal_lahir',
+        'jenis_kelamin'
     ];
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AbsenController;
 use App\Http\Controllers\Api\Admin\AdminAbsenController;
+use App\Http\Controllers\Api\Admin\AdminExcelController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,5 +45,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['is_admin']], function () {
         // route menambah keterangan ke siswa
         Route::put('/keterangan/{id}', [AdminAbsenController::class, 'keterangan']);
+
+        // route admin untuk menambah siswa dengan excel
+        Route::get('/excel/export', [AdminExcelController::class, 'export_excel']);
+        Route::post('/excel/import', [AdminExcelController::class, 'import_excel']);
     });
 });
