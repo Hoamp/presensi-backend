@@ -79,6 +79,12 @@ class AuthController extends Controller
         }
     }
 
+    public function get_user(Request $request)
+    {
+        // kembalikan data user yang login
+        return $request->user();
+    }
+
     public function logout(Request $request)
     {
         // hapus token user

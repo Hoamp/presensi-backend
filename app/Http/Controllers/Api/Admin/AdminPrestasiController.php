@@ -9,6 +9,28 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminPrestasiController extends Controller
 {
+    public function lihat_prestasi()
+    {
+        // ambil semua prestasi
+        $prestasi = Prestasi::with(['siswa'])->get();
+
+        // jika prestasi kosong
+        if (count($prestasi) == 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Belum ada prestasi pada siswa',
+                'data' => []
+            ], 200);
+        } else {
+            // jika ada, kembalikan response
+            return response()->json([
+                'success' => true,
+                'message' => 'Semua data prestasi siswa',
+                'data' => $prestasi
+            ], 200);
+        }
+    }
+
     public function tambah_prestasi(Request $request)
     {
         // validasi
@@ -68,7 +90,7 @@ class AdminPrestasiController extends Controller
             // berikan pesan error
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menambah prestasi',
+                'message' => 'Gagal mengedit prestasi',
                 'error' => $validator->errors()
             ], 400);
         }
@@ -88,13 +110,35 @@ class AdminPrestasiController extends Controller
             return response()->json([
                 'success' => $berhasil,
                 'message' => 'Berhasil mengedit prestasi',
-            ], 201);
+            ], 200);
         } else {
             // jika gagal
             return response()->json([
                 'success' => $berhasil,
                 'message' => 'Gagal mengedit prestasi',
             ], 400);
+        }
+    }
+
+    public function hapus_prestasi($id)
+    {
+        // cari prestasi
+        $prestasi = Prestasi::find($id);
+
+        // hapus prestasi
+        $prestasi->delete();
+
+        // jika tidak ada
+        if (!$prestasi) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Prestasi tidak ditemukan',
+            ], 400);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil menghapus prestasi',
+            ], 200);
         }
     }
 }
