@@ -14,11 +14,15 @@ class SiswaImport implements ToModel
      */
     public function model(array $row)
     {
-        $already_nis = User::where('nisn', $row[2])->first();
+        // jika nisn sudah ada
+        $already_nisn = User::where('nisn', $row[2])->first();
 
+        // ubah string tanggal menjadi date
         $tanggal = strtotime($row[5]);
 
-        if (!$already_nis) {
+        // jika tidak ada nis yang sama
+        if (!$already_nisn) {
+            // masukkan ke dalam database
             return new User([
                 'nama' => $row[1],
                 'nisn' => $row[2],
@@ -27,6 +31,7 @@ class SiswaImport implements ToModel
                 'tanggal_larhir' => date('Y-m-d', $tanggal)
             ]);
         } else {
+            // jika ada duplikasi nisn , skip baris
             return;
         }
     }

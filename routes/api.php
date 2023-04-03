@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AbsenController;
 use App\Http\Controllers\Api\Admin\AdminAbsenController;
 use App\Http\Controllers\Api\Admin\AdminExcelController;
+use App\Http\Controllers\Api\Admin\AdminPrestasiController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // route admin untuk menambah siswa dengan excel
         Route::get('/excel/export', [AdminExcelController::class, 'export_excel']);
         Route::post('/excel/import', [AdminExcelController::class, 'import_excel']);
+
+        // Route admin untuk menambah catatan prestasi ke siswa
+        Route::post('/prestasi', [AdminPrestasiController::class, 'tambah_prestasi']);
+        Route::put('/prestasi/{id}', [AdminPrestasiController::class, 'ubah_prestasi']);
     });
 });

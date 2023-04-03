@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absen;
+use App\Models\Prestasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class AbsenController extends Controller
 {
     public function index()
     {
-        return User::with(['absensi'])->get();
+        // return Prestasi::with(['siswa'])->get();
+        return User::with(['absensi', 'prestasi'])->get();
     }
 
     public function store(Request $request)

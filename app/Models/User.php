@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use \App\Models\Absen;
+use \App\Models\Prestasi;
 
 class User extends Authenticatable
 {
@@ -50,5 +51,10 @@ class User extends Authenticatable
     public function absensi()
     {
         return $this->hasMany(Absen::class);
+    }
+
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class, 'nisn', 'nisn');
     }
 }

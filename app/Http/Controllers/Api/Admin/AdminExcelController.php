@@ -10,14 +10,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminExcelController extends Controller
 {
-    public function index()
-    {
-        /*
-		$siswa = Siswa::all();
-		return view('siswa',['siswa'=>$siswa]);
-        */
-    }
-
     public function export_excel()
     {
         return Excel::download(new UserExport, 'siswa.xlsx');
